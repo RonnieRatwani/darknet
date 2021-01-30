@@ -57,6 +57,7 @@ def set_saved_video(input_video, output_video, size):
     fourcc = cv2.VideoWriter_fourcc(*"MJPG")
     fps = int(input_video.get(cv2.CAP_PROP_FPS))
     video = cv2.VideoWriter(output_video, fourcc, fps, size)
+    video = cv2.putText(video,fps,(50, 50),cv2.FONT_HERSHEY_SIMPLEX ,1,(255, 0, 0),2,cv2.LINE_AA)
     return video
 
 
