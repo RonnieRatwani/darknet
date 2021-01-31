@@ -57,7 +57,6 @@ def set_saved_video(input_video, output_video, size):
     fourcc = cv2.VideoWriter_fourcc(*"MJPG")
     fps = int(input_video.get(cv2.CAP_PROP_FPS))
     video = cv2.VideoWriter(output_video, fourcc, fps, size)
-    video = cv2.putText(video,fps,(50, 50),cv2.FONT_HERSHEY_SIMPLEX ,1,(255, 0, 0),2,cv2.LINE_AA)
     return video
 
 
@@ -100,6 +99,7 @@ def drawing(frame_queue, detections_queue, fps_queue):
         if frame_resized is not None:
             image = darknet.draw_boxes(detections, frame_resized, class_colors)
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+            image = cv2.putText(image,f"Fps: {str(fps)}",(50, 50),cv2.FONT_HERSHEY_SIMPLEX ,1,(255, 0, 0),2,cv2.LINE_AA)
             if args.out_filename is not None:
                 video.write(image)
             if not args.dont_show:
