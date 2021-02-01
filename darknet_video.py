@@ -99,7 +99,7 @@ def drawing(frame_queue, detections_queue, fps_queue):
         if frame_resized is not None:
             image = darknet.draw_boxes(detections, frame_resized, class_colors)
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-            image = cv2.putText(image,f"Fps: {str(fps)}",(50, 50),cv2.FONT_HERSHEY_SIMPLEX ,1,(255, 0, 0),2,cv2.LINE_AA)
+            image = cv2.putText(image,f"FPS: {str(fps)}",(20, 20),cv2.FONT_HERSHEY_SIMPLEX ,1,(255, 0, 0),2,cv2.LINE_AA)
             if args.out_filename is not None:
                 video.write(image)
             if not args.dont_show:
