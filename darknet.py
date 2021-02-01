@@ -130,8 +130,9 @@ def print_detections(detections, coordinates=False):
 
 def draw_boxes(detections, image, colors):
     import cv2
+    colors = {'car':(255,0,0),'bus':(255,0,0),'truck':(255,0,0),'person':(0,0,255)}
     for label, confidence, bbox in detections:
-        if label == 'car' or label == 'paerrson'
+        if label == 'car' or label == 'person' or label == 'truck' or label == 'bus'
             left, top, right, bottom = bbox2points(bbox)
             cv2.rectangle(image, (left, top), (right, bottom), colors[label], 1)
             cv2.putText(image,"{}".format(label),
