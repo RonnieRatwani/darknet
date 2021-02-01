@@ -133,9 +133,9 @@ def draw_boxes(detections, image, colors):
     for label, confidence, bbox in detections:
         if label == 'car' or label == 'paerrson'
             left, top, right, bottom = bbox2points(bbox)
-            cv2.rectangle(image, (left, top), (right, bottom), colors[label], 2)
-            cv2.putText(image,"{} [{:.2f}]".format(label, float(confidence)),
-                        (left, top - 12), cv2.FONT_HERSHEY_PLAIN, 1,
+            cv2.rectangle(image, (left, top), (right, bottom), colors[label], 1)
+            cv2.putText(image,"{}".format(label),
+                        (left, top - 12), cv2.FONT_HERSHEY_PLAIN, 2,
                         colors[label], 2)
     return image
 # "{} [{:.2f}]".format(label, float(confidence))
