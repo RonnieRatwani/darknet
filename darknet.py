@@ -130,13 +130,30 @@ def print_detections(detections, coordinates=False):
 
 def draw_boxes(detections, image, colors):
     import cv2
-    colors = {'car':(255,0,0),'bus':(0,255,255),'truck':(0,153,76),'person':(0,0,255)}
+    focal = 353.0
+    height = 1.7
+    red = (0, 0, 255)
+    blue = (255,0,0)
+    green = (0,255,0)
+    #colors = {'car':(255,0,0),'bus':(0,255,255),'truck':(0,153,76),'person':(0,0,255)}
+    colors = {'car':(24,333,0),'bus':(0,255,255),'truck':(0,153,76),'person':(0,0,255)}
     for label, confidence, bbox in detections:
         if label == 'car' or label == 'person' or label == 'truck' or label == 'bus':
             left, top, right, bottom = bbox2points(bbox)
-            cv2.rectangle(image, (left, top), (right, bottom), colors[label], 1)
+            dis = height*focal/(-top+bottom)
+            if dis <=5:
+              cv2.rectangle(image, (left, top), (right, bottom), red, 1)
+            elif dis >5 and dis <10:
+              cv2.rectangle(image, (left, top), (right, bottom), blue, 1)
+            else:
+              cv2.rectangle(image, (left, top), (right, bottom), green, 1)
+            dis = str(round(dis,2))
+            #cv2.rectangle(image, (left, top), (right, bottom), colors[label], 1)
             cv2.putText(image,"{}".format(label),
                         (left, top - 12), cv2.FONT_HERSHEY_PLAIN, 2,
+                        colors[label], 2)
+            cv2.putText(image,dis,
+                        (int(left), top - 30 ), cv2.FONT_HERSHEY_PLAIN, 2,
                         colors[label], 2)
     return image
 # "{} [{:.2f}]".format(label, float(confidence))
