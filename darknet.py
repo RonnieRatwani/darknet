@@ -132,6 +132,7 @@ def draw_boxes(detections, image, colors):
     import cv2
     focal = 353.0
     height = 1.7
+    discolor = (0,0,0)
     red = (0, 0, 255)
     blue = (255,0,0)
     green = (0,255,0)
@@ -142,11 +143,14 @@ def draw_boxes(detections, image, colors):
             left, top, right, bottom = bbox2points(bbox)
             dis = height*focal/(-top+bottom)
             if dis <=5:
-              cv2.rectangle(image, (left, top), (right, bottom), red, 1)
+              discolor = red
+              cv2.rectangle(image, (left, top), (right, bottom), colors[label], 1)
             elif dis >5 and dis <10:
-              cv2.rectangle(image, (left, top), (right, bottom), blue, 1)
+              discolor = blue
+              cv2.rectangle(image, (left, top), (right, bottom),colors[label], 1)
             else:
-              cv2.rectangle(image, (left, top), (right, bottom), green, 1)
+              discolor = green
+              cv2.rectangle(image, (left, top), (right, bottom), colors[label], 1)
             dis = str(round(dis,2))
             #cv2.rectangle(image, (left, top), (right, bottom), colors[label], 1)
             cv2.putText(image,"{}".format(label),
@@ -154,10 +158,9 @@ def draw_boxes(detections, image, colors):
                         colors[label], 2)
             cv2.putText(image,dis,
                         (int(left), top - 30 ), cv2.FONT_HERSHEY_PLAIN, 2,
-                        colors[label], 2)
+                        discolor, 2)
     return image
 # "{} [{:.2f}]".format(label, float(confidence))
-
 
 def decode_detection(detections):
     decoded = []
