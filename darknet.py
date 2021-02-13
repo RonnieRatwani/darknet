@@ -133,20 +133,25 @@ def draw_boxes(detections, image, colors):
     focal = 353.0
     height = 1.7
     discolor = (0,0,0)
-    red = (0, 0, 255)
-    blue = (255,0,0)
+    red = (255, 0, 0)
+    yellow = (255,255,0)
     green = (0,255,0)
+    distance = 0
+    lvalue = 0
+    nl='\n'
     #colors = {'car':(255,0,0),'bus':(0,255,255),'truck':(0,153,76),'person':(0,0,255)}
     colors = {'car':(24,333,0),'bus':(0,255,255),'truck':(0,153,76),'person':(0,0,255)}
     for label, confidence, bbox in detections:
         if label == 'car' or label == 'person' or label == 'truck' or label == 'bus':
             left, top, right, bottom = bbox2points(bbox)
             dis = height*focal/(-top+bottom)
-            if dis <=5:
+            distance = dis 
+            lvalue = left
+            if dis <=1.5:
               discolor = red
               cv2.rectangle(image, (left, top), (right, bottom), colors[label], 1)
-            elif dis >5 and dis <10:
-              discolor = blue
+            elif dis >1.5 and dis <3.0:
+              discolor = yellow
               cv2.rectangle(image, (left, top), (right, bottom),colors[label], 1)
             else:
               discolor = green
@@ -159,6 +164,7 @@ def draw_boxes(detections, image, colors):
             cv2.putText(image,dis,
                         (int(left), top - 30 ), cv2.FONT_HERSHEY_PLAIN, 2,
                         discolor, 2)
+            image = cv2.putText(image,f"Diste:{dis}m{nl}Left:{left}",(70, 30),cv2.FONT_HERSHEY_SIMPLEX ,1,discolor,2,cv2.LINE_AA)
     return image
 # "{} [{:.2f}]".format(label, float(confidence))
 
