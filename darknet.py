@@ -164,7 +164,7 @@ def draw_boxes(detections, image, colors):
             cv2.putText(image,dis,
                         (int(left), top - 30 ), cv2.FONT_HERSHEY_PLAIN, 2,
                         discolor, 2)
-            image = cv2.putText(image,f"Diste:{dis}m{nl}Left:{left}",(70, 30),cv2.FONT_HERSHEY_SIMPLEX ,1,discolor,2,cv2.LINE_AA)
+            image = cv2.putText(image,f"Diste:{dis}m,Left:{left}",(30, 70),cv2.FONT_HERSHEY_SIMPLEX ,1,discolor,2,cv2.LINE_AA)
     return image
 # "{} [{:.2f}]".format(label, float(confidence))
 
