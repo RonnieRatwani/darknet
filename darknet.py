@@ -25,6 +25,7 @@ from ctypes import *
 import math
 import random
 import os
+global timestamp
 
 
 class BOX(Structure):
@@ -118,8 +119,9 @@ def load_network(config_file, data_file, weights, batch_size=1):
     return network, class_names, colors
 
 
-def print_detections(detections, coordinates=False):
+def print_detections(detections, interval, coordinates=False):
     print("\nObjects:")
+    
     for label, confidence, bbox in detections:
         x, y, w, h = bbox
         if coordinates:
@@ -139,14 +141,23 @@ def draw_boxes(detections, image, colors):
     distance = 0
     lvalue = 0
     nl='\n'
+    
+    txtfile = open("/content/darknet/text_stamps.txt", "a")
+    
     #colors = {'car':(255,0,0),'bus':(0,255,255),'truck':(0,153,76),'person':(0,0,255)}
     colors = {'car':(24,333,0),'bus':(0,255,255),'truck':(0,153,76),'person':(0,0,255)}
     for label, confidence, bbox in detections:
+        timestamp+=0.03
+        print(timestamp)
         if label == 'car' or label == 'person' or label == 'truck' or label == 'bus':
             left, top, right, bottom = bbox2points(bbox)
             dis = height*focal/(-top+bottom)
             distance = dis 
             lvalue = left
+            
+            # Writing to file 
+            L = (str(left),",",str(dis)+"\n")
+            txtfile.writelines(L)
             if dis <=1.5:
               discolor = red
               cv2.rectangle(image, (left, top), (right, bottom), colors[label], 1)
