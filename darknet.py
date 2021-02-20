@@ -147,8 +147,7 @@ def draw_boxes(detections, image, colors):
     #colors = {'car':(255,0,0),'bus':(0,255,255),'truck':(0,153,76),'person':(0,0,255)}
     colors = {'car':(24,333,0),'bus':(0,255,255),'truck':(0,153,76),'person':(0,0,255)}
     for label, confidence, bbox in detections:
-        timestamp+=0.03
-        print(timestamp)
+        
         if label == 'car' or label == 'person' or label == 'truck' or label == 'bus':
             left, top, right, bottom = bbox2points(bbox)
             dis = height*focal/(-top+bottom)
