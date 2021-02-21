@@ -141,7 +141,7 @@ def draw_boxes(detections, image, colors):
     distance = 0
     lvalue = 0
     nl='\n'
-    
+    distdict={}
     txtfile = open("/content/darknet/text_stamps.txt", "a")
     
     #colors = {'car':(255,0,0),'bus':(0,255,255),'truck':(0,153,76),'person':(0,0,255)}
@@ -153,7 +153,10 @@ def draw_boxes(detections, image, colors):
             dis = height*focal/(-top+bottom)
             distance = dis 
             lvalue = left
-            
+            if label in distdict.keys():
+              distdict[label].extend([distance,left])
+            else:
+              distdict[label] = [distance,left]
             # Writing to file 
             L = (str(left),",",str(dis)+"\n")
             txtfile.writelines(L)
@@ -171,10 +174,10 @@ def draw_boxes(detections, image, colors):
             cv2.putText(image,"{}".format(label),
                         (left, top - 12), cv2.FONT_HERSHEY_PLAIN, 2,
                         colors[label], 2)
-            cv2.putText(image,dis,
-                        (int(left), top - 30 ), cv2.FONT_HERSHEY_PLAIN, 2,
-                        discolor, 2)
-            image = cv2.putText(image,f"Diste:{dis}m,Left:{left}",(30, 70),cv2.FONT_HERSHEY_SIMPLEX ,1,discolor,2,cv2.LINE_AA)
+            # cv2.putText(image,dis,
+            #             (int(left), top - 30 ), cv2.FONT_HERSHEY_PLAIN, 2,
+            #             discolor, 2)
+            image = cv2.putText(image,f"Dist.: {distdict[label][0]}m",(50, 70),cv2.FONT_HERSHEY_SIMPLEX ,1,discolor,2,cv2.LINE_AA)
     return image
 # "{} [{:.2f}]".format(label, float(confidence))
 
